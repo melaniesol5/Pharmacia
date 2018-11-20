@@ -17,7 +17,7 @@ class AnalisisController extends Controller
     /**
      * Lists all analisi entities.
      *
-     * @Route("/", name="analisis_index")
+     * @Route("/list", name="analisis_index")
      * @Method("GET")
      */
     public function indexAction()

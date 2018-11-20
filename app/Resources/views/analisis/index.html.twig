@@ -8,9 +8,6 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>Hemograma</th>
-                <th>Rayosx</th>
-                <th>Testpsicologico</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -19,9 +16,6 @@
             <tr>
                 <td><a href="{{ path('analisis_show', { 'id': analisi.id }) }}">{{ analisi.id }}</a></td>
                 <td>{{ analisi.name }}</td>
-                <td>{{ analisi.hemograma }}</td>
-                <td>{{ analisi.rayosX }}</td>
-                <td>{{ analisi.testPsicologico }}</td>
                 <td>
                     <ul>
                         <li>
@@ -39,7 +33,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('analisis_new') }}">Create a new analisis</a>
+            <a href="{{ path('analisis_new') }}">Create a new analisi</a>
         </li>
     </ul>
 {% endblock %}

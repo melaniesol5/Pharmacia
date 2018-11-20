@@ -14,9 +14,20 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Patient
 {
     /**
-    *@ORM\OneToMany(targetEntity="Analisis", inversedBy="Patients")
+    *@ORM\ManyToMany(targetEntity="Analisis", inversedBy="patients")
     *@ORM\JoinTable(name="Patient_analisis")
     */
+    
+     private $analisis=null;
+    public function __construct()
+    {
+        $this->analisis=new ArrayCollection();
+    }
+    public function getAnalisis()
+    {
+        return $this->analisis;
+    }
+
     /**
      * @var int
      *
@@ -61,21 +72,8 @@ class Patient
      */
     private $idType;
 
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="analisis", type="array")
-     */
-    private $analisis=null;
-    public function __construct()
-    {
-        $this->analisis=new ArrayCollection();
-    }
-    public function getCategories()
-    {
-        return $this->categories;
-    }
-
+    
+   
     /**
      * @var string
      *
@@ -214,29 +212,7 @@ class Patient
         return $this->idType;
     }
 
-    /**
-     * Set analisis
-     *
-     * @param array $analisis
-     *
-     * @return Patient
-     */
-    public function setAnalisis($analisis)
-    {
-        $this->analisis = $analisis;
-
-        return $this;
-    }
-
-    /**
-     * Get analisis
-     *
-     * @return array
-     */
-    public function getAnalisis()
-    {
-        return $this->analisis;
-    }
+   
 
     /**
      * Set observations

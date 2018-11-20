@@ -17,7 +17,7 @@ class PatientController extends Controller
     /**
      * Lists all patient entities.
      *
-     * @Route("/", name="patient_index")
+     * @Route("/list", name="patient_index")
      * @Method("GET")
      */
     public function indexAction()
