@@ -13,7 +13,13 @@ class PatientType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('lastName')->add('age')->add('idNumber')->add('idType')->add('analisis')->add('observations');
+        $builder->add('name')
+                ->add('lastName')
+                ->add('age')
+                ->add('idNumber')
+                ->add('idType')
+                ->add('analisis')
+                ->add('observations');
     }/**
      * {@inheritdoc}
      */

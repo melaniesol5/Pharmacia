@@ -3,6 +3,7 @@
 namespace PatientBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Analisis
@@ -12,16 +13,22 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Analisis
 {
+
     /**
+    * @var ArrayCollection
+    *
     *@ORM\ManyToMany(targetEntity="Patient", mappedBy="analisis")
     *@ORM\JoinTable(name="Patient_analisis")
     */
-     private $patients=null;
+    private $patients=null;
     public function __construct()
     {
         $this->patients=new ArrayCollection();
     }
-    public function getAnalisis()
+    /**
+      * @return ArrayCollection
+      */
+    public function getPatients()
     {
         return $this->patients;
     }
@@ -72,6 +79,10 @@ class Analisis
      * @return string
      */
     public function getName()
+    {
+        return $this->name;
+    }
+     public function __toString()
     {
         return $this->name;
     }

@@ -13,7 +13,8 @@ class AnalisisType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('hemograma')->add('rayosX')->add('testPsicologico');
+        $builder->add('name')
+                ->add('patients');
     }/**
      * {@inheritdoc}
      */

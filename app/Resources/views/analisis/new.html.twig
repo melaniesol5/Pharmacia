@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Analisi creation</h1>
+    <h1>Analisis creation</h1>
+    <div class="grid-container">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+           
+            <input type="submit" value="Create" class="button primary" />
+           
+        {{ form_end(form) }}
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('analisis_index') }}">Back to the list</a>
-        </li>
-    </ul>
+       
+         <a class="button success" href="{{ path('analisis_index') }}">Back to the list</a>
+    </div>
 {% endblock %}

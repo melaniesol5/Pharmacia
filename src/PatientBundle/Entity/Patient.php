@@ -4,6 +4,7 @@ namespace PatientBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Patient
@@ -11,18 +12,23 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table(name="patient")
  * @ORM\Entity(repositoryClass="PatientBundle\Repository\PatientRepository")
  */
-class Patient
+class Patient implements \JsonSerializable
 {
     /**
-    *@ORM\ManyToMany(targetEntity="Analisis", inversedBy="patients")
-    *@ORM\JoinTable(name="Patient_analisis")
-    */
+      * @var ArrayCollection
+      *
+      *@ORM\ManyToMany(targetEntity="Analisis", inversedBy="patients")
+      *@ORM\JoinTable(name="Patient_analisis")
+     */
     
      private $analisis=null;
     public function __construct()
     {
         $this->analisis=new ArrayCollection();
     }
+    /**
+      * @return ArrayCollection
+      */
     public function getAnalisis()
     {
         return $this->analisis;
@@ -41,6 +47,7 @@ class Patient
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank
      */
     private $name;
 
@@ -48,6 +55,7 @@ class Patient
      * @var string
      *
      * @ORM\Column(name="lastName", type="string", length=255)
+     * @Assert\NotBlank
      */
     private $lastName;
 
@@ -55,6 +63,7 @@ class Patient
      * @var int
      *
      * @ORM\Column(name="age", type="integer")
+     * @Assert\NotBlank
      */
     private $age;
 
@@ -62,6 +71,7 @@ class Patient
      * @var string
      *
      * @ORM\Column(name="idNumber", type="string", length=255)
+     * @Assert\NotBlank
      */
     private $idNumber;
 
@@ -69,6 +79,7 @@ class Patient
      * @var string
      *
      * @ORM\Column(name="idType", type="string", length=255)
+     * @Assert\NotBlank
      */
     private $idType;
 
@@ -78,6 +89,7 @@ class Patient
      * @var string
      *
      * @ORM\Column(name="observations", type="string", length=255)
+     * @Assert\NotBlank
      */
     private $observations;
 
@@ -241,5 +253,18 @@ class Patient
     {
         return $this->name;
     }
+    public function jsonSerialize()
+    {
+         return [
+                'id' => $this->getId(),
+                'name' => $this->getName(),
+                'lastName' => $this->getLastName(),
+                'age'=> $this->getAge(),
+                'idNumber'=> $this->getIdNumber(),
+                'idType'=> $this->getIdType(),
+                'observations'=> $this->getObservations()
+                ];
+    }
+
 }
 

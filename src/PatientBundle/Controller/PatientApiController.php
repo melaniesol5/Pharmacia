@@ -7,19 +7,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-
-/**
- * Patient controller.
- *
- * @Route("patient")
- */
-class PatientController extends Controller
+class PatientApiController extends Controller
 {
-    /**
+	/**
      * Lists all patient entities.
      *
-     * @Route("/list", name="patient_index")
+     * @Route("/patient/api/list", name="patient_api_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -36,33 +31,57 @@ class PatientController extends Controller
     /**
      * Creates a new patient entity.
      *
-     * @Route("/new", name="patient_new")
+     * @Route("/patient/api/new", name="patient_api_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
     {
         $patient = new Patient();
-        $form = $this->createForm('PatientBundle\Form\PatientType', $patient);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($patient);
-            $em->flush();
+		$form = $this->createForm(
+			'PatientBundle\Form\PatientApiType',
+			$patient,
+			[
+				'csrf_protection' => false
+			]
+		);
+		$form->bind($request);
 
-            return $this->redirectToRoute('patient_show', array('id' => $patient->getId()));
-        }
+		$valid = $form->isValid();
 
-        return $this->render('patient/new.html.twig', array(
-            'patient' => $patient,
-            'form' => $form->createView(),
-        ));
+		$response = new Response();
+
+		if(false === $valid){
+			$response->setStatusCode(400);
+			$response->setContent(json_encode($this->getFormErrors($form)));
+			return $response;
+		}
+
+		if (true === $valid) {
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($patient);
+			$em->flush();
+			$response->setContent(json_encode($patient));
+		}
+		return $response;
+	}
+	public function getFormErrors($form){
+		$errors = [];
+		if (0 === $form->count()){
+			return $errors;
+		}
+		foreach ($form->all() as $child) {
+			if (!$child->isValid()) {
+				$errors[$child->getName()] = (string) $form[$child->getName()]->getErrors();
+			}
+		}
+		return $errors;
     }
 
     /**
      * Finds and displays a patient entity.
      *
-     * @Route("/{id}", name="patient_show")
+     * @Route("/patient/api/{id}", name="patient_api_show")
      * @Method("GET")
      */
     public function showAction(Patient $patient)
@@ -78,7 +97,7 @@ class PatientController extends Controller
     /**
      * Displays a form to edit an existing patient entity.
      *
-     * @Route("/{id}/edit", name="patient_edit")
+     * @Route("/patient/api/{id}/edit", name="patient_api_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Patient $patient)
@@ -103,7 +122,7 @@ class PatientController extends Controller
     /**
      * Deletes a patient entity.
      *
-     * @Route("/{id}", name="patient_delete")
+     * @Route("/patient/api/{id}", name="patient_api_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Patient $patient)

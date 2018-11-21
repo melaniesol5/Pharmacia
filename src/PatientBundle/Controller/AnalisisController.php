@@ -39,7 +39,7 @@ class AnalisisController extends Controller
      */
     public function newAction(Request $request)
     {
-        $analisi = new Analisi();
+        $analisi = new Analisis();
         $form = $this->createForm('PatientBundle\Form\AnalisisType', $analisi);
         $form->handleRequest($request);
 
