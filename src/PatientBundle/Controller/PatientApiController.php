@@ -23,9 +23,12 @@ class PatientApiController extends Controller
 
         $patients = $em->getRepository('PatientBundle:Patient')->findAll();
 
-        return $this->render('patient/index.html.twig', array(
-            'patients' => $patients,
-        ));
+        $response=new Response();
+        $response->headers->add([
+                    'Content-Type'=>'application/json'
+        ]);
+        $response->setContent(json_encode($patients));
+        return $response;
     }
 
     /**
@@ -87,71 +90,11 @@ class PatientApiController extends Controller
     public function showAction(Patient $patient)
     {
         $deleteForm = $this->createDeleteForm($patient);
+        $response = new Response();
+        $response->setContent(json_encode($patient));
+        return $response;
+        
 
-        return $this->render('patient/show.html.twig', array(
-            'patient' => $patient,
-            'delete_form' => $deleteForm->createView(),
-        ));
     }
 
-    /**
-     * Displays a form to edit an existing patient entity.
-     *
-     * @Route("/patient/api/{id}/edit", name="patient_api_edit")
-     * @Method({"GET", "POST"})
-     */
-    public function editAction(Request $request, Patient $patient)
-    {
-        $deleteForm = $this->createDeleteForm($patient);
-        $editForm = $this->createForm('PatientBundle\Form\PatientType', $patient);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('patient_edit', array('id' => $patient->getId()));
-        }
-
-        return $this->render('patient/edit.html.twig', array(
-            'patient' => $patient,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-     * Deletes a patient entity.
-     *
-     * @Route("/patient/api/{id}", name="patient_api_delete")
-     * @Method("DELETE")
-     */
-    public function deleteAction(Request $request, Patient $patient)
-    {
-        $form = $this->createDeleteForm($patient);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($patient);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('patient_index');
-    }
-
-    /**
-     * Creates a form to delete a patient entity.
-     *
-     * @param Patient $patient The patient entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Patient $patient)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('patient_delete', array('id' => $patient->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
-    }
 }
