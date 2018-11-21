@@ -1,49 +1,47 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Patients list</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Lastname</th>
-                <th>Age</th>
-                <th>Idnumber</th>
-                <th>Idtype</th>
-                <th>Analisis</th>
-                <th>Observations</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for patient in patients %}
-            <tr>
-                <td><a href="{{ path('patient_show', { 'id': patient.id }) }}">{{ patient.id }}</a></td>
-                <td>{{ patient.name }}</td>
-                <td>{{ patient.lastName }}</td>
-                <td>{{ patient.age }}</td>
-                <td>{{ patient.idNumber }}</td>
-                <td>{{ patient.idType }}</td>
-                <td>{% if patient.analisis %}{{ patient.analisis|join(', ') }}{% endif %}</td>
-                <td>{{ patient.observations }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('patient_show', { 'id': patient.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('patient_edit', { 'id': patient.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-   
-     <a class="button success" href="{{ path('patient_new') }}">Create a new patient</a>
     
+    <div class="grid-container">
+        <h1>Patients list</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Lastname</th>
+                    <th>Age</th>
+                    <th>Idnumber</th>
+                    <th>Idtype</th>
+                    <th>Analisis</th>
+                    <th>Observations</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for patient in patients %}
+                <tr>
+                    <td><a href="{{ path('patient_show', { 'id': patient.id }) }}">{{ patient.id }}</a></td>
+                    <td>{{ patient.name }}</td>
+                    <td>{{ patient.lastName }}</td>
+                    <td>{{ patient.age }}</td>
+                    <td>{{ patient.idNumber }}</td>
+                    <td>{{ patient.idType }}</td>
+                    <td>{% if patient.analisis %}{{ patient.analisis|join(', ') }}{% endif %}</td>
+                    <td>{{ patient.observations }}</td>
+                    <td>
+                        
+                        <a href="{{ path('patient_show', { 'id': patient.id }) }}" class="hollow button">show</a>
+                            
+                        <a href="{{ path('patient_edit', { 'id': patient.id }) }}" class="hollow button">edit</a>
+                          
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+       
+         <a class="button success" href="{{ path('patient_new') }}">Create a new patient</a>
+    <div>   
 {% endblock %}

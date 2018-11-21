@@ -1,32 +1,33 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Analisis</h1>
+    <div class="grid-container">
+        <h1>Analisis</h1>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ analisi.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ analisi.name }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('analisis_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('analisis_edit', { 'id': analisi.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+        <table>
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ analisi.id }}</td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td>{{ analisi.name }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="button-group">    
+        <ul>  
+        <a href="{{ path('analisis_index') }}" class="button">Back to the list</a>
+            
+            
+        <a href="{{ path('analisis_edit', { 'id': analisi.id }) }}" class="button warning "> Edit </a>
+           
+        
+            <button>{{ form_start(delete_form) }}
+                <input type="submit" value="Delete" class="alert button">
+            {{ form_end(delete_form) }}</button>
+        <div> 
+    </div> 
+    
 {% endblock %}
